@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja da Lojista - Moda Contemporânea</title>
+    <style>
+        :root {
+            --sport-primary: #ff4d4d;
+            --sport-secondary: #ff8080;
+            --formal-primary: #2c3e50;
+            --formal-secondary: #34495e;
+            --casual-primary: #27ae60;
+            --casual-secondary: #2ecc71;
+            --street-primary: #8e44ad;
+            --street-secondary: #9b59b6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--formal-primary), var(--formal-secondary));
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--sport-primary);
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .hero {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            background: var(--sport-primary);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .categories {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category {
+            margin-bottom: 3rem;
+        }
+
+        .category h2 {
+            margin-bottom: 1rem;
+            color: var(--formal-primary);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--sport-primary);
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .carousel-control {
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .blog {
+            padding: 4rem 2rem;
+            background: #f9f9f9;
+        }
+
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-post {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .blog-post img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-post-content {
+            padding: 1rem;
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+        }
+
+        .cart-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .cart-items {
+            margin: 1rem 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-total {
+            margin-top: 1rem;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .category-banner {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            margin: 2rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .category-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .category-banner-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-banner .btn {
+            background: white;
+            color: var(--formal-primary);
+        }
+
+        .features {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature i {
+            font-size: 2rem;
+            color: var(--formal-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            margin-bottom: 1rem;
+        }
+
+        .feature p {
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .products {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Loja da Lojista</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="esportivo.html">Esportivo</a>
+                <a href="formal.html">Formal</a>
+                <a href="casual.html">Casual</a>
+                <a href="street.html">Street</a>
+            </div>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒 <span class="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Moda Contemporânea</h1>
+            <p>Descubra seu estilo único</p>
+            <button class="btn">Ver Coleção</button>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature">
+                <i>🚚</i>
+                <h3>Entrega Rápida</h3>
+                <p>Entrega em todo o Brasil</p>
+            </div>
+            <div class="feature">
+                <i>💳</i>
+                <h3>Pagamento Seguro</h3>
+                <p>Diversas formas de pagamento</p>
+            </div>
+            <div class="feature">
+                <i>🔄</i>
+                <h3>Trocas Fáceis</h3>
+                <p>30 dias para trocar</p>
+            </div>
+            <div class="feature">
+                <i>💬</i>
+                <h3>Atendimento</h3>
+                <p>Suporte 24/7</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="category-banner" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+            <div class="category-banner-content">
+                <h2>Coleção Esportiva</h2>
+                <p>Performance e estilo para seus treinos</p>
+                <a href="esportivo.html" class="btn">Ver Mais</a>
+            </div>
+        </div>
+
+        <div class="category-banner" style="background-image: url('https://images.unsplash.com/photo-1593032465175-481ac7f401a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+            <div class="category-banner-content">
+                <h2>Coleção Formal</h2>
+                <p>Elegância para ocasiões especiais</p>
+                <a href="formal.html" class="btn">Ver Mais</a>
+            </div>
+        </div>
+
+        <div class="category-banner" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+            <div class="category-banner-content">
+                <h2>Coleção Casual</h2>
+                <p>Conforto para o dia a dia</p>
+                <a href="casual.html" class="btn">Ver Mais</a>
+            </div>
+        </div>
+
+        <div class="category-banner" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+            <div class="category-banner-content">
+                <h2>Coleção Street</h2>
+                <p>Estilo urbano e contemporâneo</p>
+                <a href="street.html" class="btn">Ver Mais</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog" id="blog">
+        <h2>Blog da Moda</h2>
+        <div class="blog-posts">
+            <article class="blog-post">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Blog Post">
+                <div class="blog-post-content">
+                    <h3>Tendências de Verão 2024</h3>
+                    <p>Descubra as principais tendências para a próxima estação...</p>
+                </div>
+            </article>
+            <article class="blog-post">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Blog Post">
+                <div class="blog-post-content">
+                    <h3>Como Montar Looks Básicos</h3>
+                    <p>Aprenda a criar combinações perfeitas com peças básicas...</p>
+                </div>
+            </article>
+            <article class="blog-post">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Blog Post">
+                <div class="blog-post-content">
+                    <h3>Guia de Tamanhos</h3>
+                    <p>Saiba como escolher o tamanho ideal para cada tipo de peça...</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <h2>Carrinho de Compras</h2>
+            <div class="cart-items" id="cartItems">
+                <!-- Items do carrinho serão inseridos aqui -->
+            </div>
+            <div class="cart-total">
+                Total: R$ <span id="cartTotal">0.00</span>
+            </div>
+            <button class="btn" onclick="sendToWhatsApp()">Finalizar Compra</button>
+            <button class="btn" onclick="toggleCart()">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartCount();
+            updateCartItems();
+        }
+
+        function updateCartCount() {
+            document.querySelector('.cart-count').textContent = cart.length;
+        }
+
+        function updateCartItems() {
+            const cartItems = document.getElementById('cartItems');
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name}</span>
+                        <span>R$ ${item.price.toFixed(2)}</span>
+                        <button onclick="removeFromCart(${index})">Remover</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            updateCartItems();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function sendToWhatsApp() {
+            let message = 'Olá! Gostaria de fazer um pedido:\n\n';
+            let total = 0;
+
+            cart.forEach(item => {
+                message += `${item.name} - R$ ${item.price.toFixed(2)}\n`;
+                total += item.price;
+            });
+
+            message += `\nTotal: R$ ${total.toFixed(2)}`;
+            
+            const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Carousel functionality
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const carousel = document.querySelector('.carousel-inner');
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        // Parallax effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.querySelector('.hero').style.backgroundPositionY = `${scrolled * 0.5}px`;
+        });
+
+        // Initialize carousel
+        setInterval(nextSlide, 5000);
+
+        // Load cart from localStorage
+        window.addEventListener('load', () => {
+            const savedCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart = savedCart;
+            updateCartCount();
+            updateCartItems();
+        });
+    </script>
+</body>
+</html> 

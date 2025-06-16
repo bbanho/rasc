@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Street - Loja da Lojista</title>
+    <style>
+        :root {
+            --street-primary: #8e44ad;
+            --street-secondary: #9b59b6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--street-primary), var(--street-secondary));
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .category-header {
+            height: 50vh;
+            background: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .category-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .filters {
+            background: white;
+            padding: 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--street-primary);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--street-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--street-primary);
+            color: white;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .product {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--street-primary);
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            background: var(--street-primary);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .size-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .size-btn {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .size-btn:hover, .size-btn.selected {
+            border-color: var(--street-primary);
+            color: var(--street-primary);
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .color-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .color-btn:hover, .color-btn.selected {
+            border-color: var(--street-primary);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .category-header {
+                height: 30vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Loja da Lojista</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="esportivo.html">Esportivo</a>
+                <a href="formal.html">Formal</a>
+                <a href="casual.html">Casual</a>
+                <a href="street.html" class="active">Street</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="category-header">
+        <div class="category-content">
+            <h1>Coleção Street</h1>
+            <p>Estilo urbano e contemporâneo</p>
+        </div>
+    </section>
+
+    <div class="filters">
+        <div class="filter-group">
+            <button class="filter-btn active">Todos</button>
+            <button class="filter-btn">Oversized</button>
+            <button class="filter-btn">Sneakers</button>
+            <button class="filter-btn">Acessórios</button>
+            <button class="filter-btn">Limited Edition</button>
+        </div>
+    </div>
+
+    <div class="products">
+        <div class="product">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Hoodie Street">
+            <div class="product-info">
+                <h3>Hoodie Oversized</h3>
+                <p>Algodão premium com capuz ajustável</p>
+                <div class="size-selector">
+                    <button class="size-btn">P</button>
+                    <button class="size-btn">M</button>
+                    <button class="size-btn">G</button>
+                    <button class="size-btn">GG</button>
+                </div>
+                <div class="color-selector">
+                    <button class="color-btn" style="background: #000;"></button>
+                    <button class="color-btn" style="background: #8e44ad;"></button>
+                    <button class="color-btn" style="background: #2c3e50;"></button>
+                </div>
+                <p class="price">R$ 249,90</p>
+                <button class="btn" onclick="addToCart('Hoodie Oversized', 249.90)">Adicionar ao Carrinho</button>
+            </div>
+        </div>
+
+        <div class="product">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Sneaker Street">
+            <div class="product-info">
+                <h3>Sneaker Limited Edition</h3>
+                <p>Edição exclusiva com detalhes únicos</p>
+                <div class="size-selector">
+                    <button class="size-btn">38</button>
+                    <button class="size-btn">39</button>
+                    <button class="size-btn">40</button>
+                    <button class="size-btn">41</button>
+                    <button class="size-btn">42</button>
+                </div>
+                <div class="color-selector">
+                    <button class="color-btn" style="background: #fff;"></button>
+                    <button class="color-btn" style="background: #000;"></button>
+                    <button class="color-btn" style="background: #8e44ad;"></button>
+                </div>
+                <p class="price">R$ 599,90</p>
+                <button class="btn" onclick="addToCart('Sneaker Limited Edition', 599.90)">Adicionar ao Carrinho</button>
+            </div>
+        </div>
+
+        <div class="product">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Camiseta Street">
+            <div class="product-info">
+                <h3>Camiseta Graphic</h3>
+                <p>Estampa exclusiva com arte urbana</p>
+                <div class="size-selector">
+                    <button class="size-btn">P</button>
+                    <button class="size-btn">M</button>
+                    <button class="size-btn">G</button>
+                    <button class="size-btn">GG</button>
+                </div>
+                <div class="color-selector">
+                    <button class="color-btn" style="background: #fff;"></button>
+                    <button class="color-btn" style="background: #000;"></button>
+                    <button class="color-btn" style="background: #e74c3c;"></button>
+                </div>
+                <p class="price">R$ 129,90</p>
+                <button class="btn" onclick="addToCart('Camiseta Graphic', 129.90)">Adicionar ao Carrinho</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle size selection
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        });
+
+        // Toggle color selection
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // Add filter logic here
+            });
+        });
+
+        // Cart functionality
+        function addToCart(name, price) {
+            const selectedSize = document.querySelector('.size-btn.selected');
+            const selectedColor = document.querySelector('.color-btn.selected');
+            
+            if (!selectedSize) {
+                alert('Por favor, selecione um tamanho');
+                return;
+            }
+            
+            if (!selectedColor) {
+                alert('Por favor, selecione uma cor');
+                return;
+            }
+            
+            const item = {
+                name: `${name} - Tamanho ${selectedSize.textContent}`,
+                price: price
+            };
+            
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart.push(item);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            alert('Produto adicionado ao carrinho!');
+        }
+    </script>
+</body>
+</html> 
